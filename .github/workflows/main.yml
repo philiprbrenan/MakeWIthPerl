@@ -1,4 +1,4 @@
-# Test MakeWithPerl 2021-05-29 at 02:22:11
+# Test MakeWithPerl 2021-05-29 at 02:22:55
 
 name: Test
 
@@ -33,4 +33,4 @@ jobs:
 
     - name: Test
       run: |
-        perl lib/MakeWIthPerl.pm
+        perl lib/MakeWithPerl.pm
