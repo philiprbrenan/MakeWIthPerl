@@ -38,3 +38,6 @@ The text to enter is:
 ### Press **F9** to run a program
 
 ### Press **F5** to document a program
+
+
+For documentation see: [CPAN](https://metacpan.org/pod/Make::With::Perl)
