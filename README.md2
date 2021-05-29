@@ -1,4 +1,4 @@
-# Generate and run x64 avx512 assembler programs from perl
+# Make with Perl.
 
 ![Test](https://github.com/philiprbrenan/MakeWithPerl/workflows/Test/badge.svg)
 
