@@ -5,21 +5,6 @@
 #-------------------------------------------------------------------------------
 package MakeWithPerl;
 our $VERSION = "20210529";
-
-=pod
-
-Integrated development environment for Geany or similar editor for compiling
-running and documenting programs written in a number of languages.
-
-Installation:
-
-  sudo cpan install Nasm::X86
-
-Then configure Geany as described in
-L<README|/https://github.com/philiprbrenan/MakeWithPerl>.
-
-=cut
-
 use warnings FATAL => qw(all);
 use strict;
 use Carp qw(confess);
@@ -328,5 +313,113 @@ sub cgiPerl($)                                                                  
    }
  }
 }
+
+#d
+#-------------------------------------------------------------------------------
+# Export - eeee
+#-------------------------------------------------------------------------------
+
+use Exporter qw(import);
+
+use vars qw(@ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
+
+@ISA          = qw(Exporter);
+@EXPORT       = qw();
+@EXPORT_OK    = qw(
+ );
+%EXPORT_TAGS = (all=>[@EXPORT, @EXPORT_OK]);
+
+# podDocumentation
+=pod
+
+=encoding utf-8
+
+=head1 Name
+
+MakeWithPerl - Make with Perl
+
+=head1 Synopsis
+
+Integrated development environment for Geany or similar editor for compiling
+running and documenting programs written in a number of languages.
+
+Installation:
+
+  sudo cpan install Nasm::X86
+
+Then configure Geany as described in
+L<README|/https://github.com/philiprbrenan/MakeWithPerl>.
+
+=head1 Description
+
+Make with Perl
+
+
+Version "20210529".
+
+
+The following sections describe the methods in each functional area of this
+module.  For an alphabetic listing of all methods by name see L<Index|/Index>.
+
+
+
+
+=head1 Index
+
+
+=head1 Installation
+
+This module is written in 100% Pure Perl and, thus, it is easy to read,
+comprehend, use, modify and install via B<cpan>:
+
+  sudo cpan install MakeWithPerl
+
+=head1 Author
+
+L<philiprbrenan@gmail.com|mailto:philiprbrenan@gmail.com>
+
+L<http://www.appaapps.com|http://www.appaapps.com>
+
+=head1 Copyright
+
+Copyright (c) 2016-2021 Philip R Brenan.
+
+This module is free software. It may be used, redistributed and/or modified
+under the same terms as Perl itself.
+
+=cut
+
+
+
+# Tests and documentation
+
+sub test
+ {my $p = __PACKAGE__;
+  binmode($_, ":utf8") for *STDOUT, *STDERR;
+  return if eval "eof(${p}::DATA)";
+  my $s = eval "join('', <${p}::DATA>)";
+  $@ and die $@;
+  eval $s;
+  $@ and die $@;
+  1
+ }
+
+test unless caller;
+
+1;
+# podDocumentation
+__DATA__
+use Time::HiRes qw(time);
+use Test::Most tests => 1;
+
+my $f = owf("zzz.pl", <<END);
+#!/usr/bin/perl
+say STDOUT 'Hello World';
+END
+my $c = qq(perl -Ilib -M"MakeWithPerl" -e"MakeWithPerl::makeWithPerl" -- --run $f 2>&1);
+my $r = qx($c);
+unlink $f;
+
+ok $r =~ m(Hello World);
 
 1;
