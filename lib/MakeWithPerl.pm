@@ -4,7 +4,7 @@
 # Philip R Brenan at gmail dot com, Appa Apps Ltd, 2017
 #-------------------------------------------------------------------------------
 package MakeWithPerl;
-our $VERSION = "20210529";
+our $VERSION = "20210530";
 use warnings FATAL => qw(all);
 use strict;
 use Carp qw(confess);
@@ -55,26 +55,6 @@ if (! -e $file)                                                                 
  {confess "No such file:\n$file"
  }
 
-if ($file =~ m(\.p[lm]\Z))                                                      # Perl
- {if ($compile)                                                                 # Syntax check perl
-   {print STDERR qx(perl -CSDA -cw "$file");
-   }
-  elsif ($run)                                                                  # Run perl
-   {if ($file =~ m(.cgi\Z)s)                                                    # Run from web server
-     {&cgiPerl($file);
-     }
-    else                                                                        # Run from command line
-     {say STDERR qq(perl -CSDA -w  "$file");
-      print STDERR qx(perl -CSDA -w  "$file");
-     }
-   }
-  elsif ($doc)                                                                  # Document perl
-   {say STDERR "Document perl $file";
-    updatePerlModuleDocumentation($file);
-   }
-  exit;
- }
-
 if ($upload)                                                                    # Upload files to GitHub
  {my @d = split m{/}, $file;                                                    # Split file name
   pop @d;
@@ -122,6 +102,26 @@ if (-e mwpl and $run)                                                           
  {my $p = join ' ', @ARGV;
   my $c = mwpl;
   print STDERR qx(perl -CSDA $c $p);
+  exit;
+ }
+
+if ($file =~ m(\.p[lm]\Z))                                                      # Perl
+ {if ($compile)                                                                 # Syntax check perl
+   {print STDERR qx(perl -CSDA -cw "$file");
+   }
+  elsif ($run)                                                                  # Run perl
+   {if ($file =~ m(.cgi\Z)s)                                                    # Run from web server
+     {&cgiPerl($file);
+     }
+    else                                                                        # Run from command line
+     {say STDERR qq(perl -CSDA -w  "$file");
+      print STDERR qx(perl -CSDA -w  "$file");
+     }
+   }
+  elsif ($doc)                                                                  # Document perl
+   {say STDERR "Document perl $file";
+    updatePerlModuleDocumentation($file);
+   }
   exit;
  }
 
