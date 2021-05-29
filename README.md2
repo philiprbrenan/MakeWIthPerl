@@ -6,8 +6,4 @@ Integrated development environment for
 [Geany](https://www.geany.org/download/releases/) or similar editor for
 compiling running and documenting programs written in a number of languages.
 
-```
-  makeWithPerl --compile "%f"
-  makeWithPerl --run "%f"
-  makeWithPerl --doc "%f"
-```
+Configure Geany as shown in the following [image](https://github.com/philiprbrenan/MakeWithPerl/blob/main/Geany.png).
