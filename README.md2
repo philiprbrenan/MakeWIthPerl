@@ -10,7 +10,7 @@ compiling running and documenting programs written in a number of languages.
 
 Install from [w[CPAN]](https://metacpan.org/release/MakeWithPerl)
 
-    sudo cpan install MakeWithPerl
+    sudo w[cpan] w[install] MakeWithPerl
 
 # Configuration
 
