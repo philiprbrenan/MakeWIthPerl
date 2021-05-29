@@ -18,14 +18,14 @@ Configure **Geany->Build->Set Build Commands** as shown in the following image: 
 
 The text to enter is:
 
-    [Perl](http://www.perl.org/) -M"MakeWithPerl" -e"MakeWithPerl::makeWithPerl" -- --compile "%d/%f"
+    perl -M"MakeWithPerl" -e"MakeWithPerl::makeWithPerl" -- --compile "%d/%f"
 
-    [Perl](http://www.perl.org/) -M"MakeWithPerl" -e"MakeWithPerl::makeWithPerl" -- --run "%d/%f"
+    perl -M"MakeWithPerl" -e"MakeWithPerl::makeWithPerl" -- --run "%d/%f"
 
     .+ at (.+) line ([0-9]+).*
 
-    [Perl](http://www.perl.org/) -M"MakeWithPerl" -e"MakeWithPerl::makeWithPerl" --  --doc "%d/%f"
+    perl -M"MakeWithPerl" -e"MakeWithPerl::makeWithPerl" --  --doc "%d/%f"
 
-    [Perl](http://www.perl.org/) -M"MakeWithPerl" -e"MakeWithPerl::makeWithPerl" -- --upload "%d/%f"
+    perl -M"MakeWithPerl" -e"MakeWithPerl::makeWithPerl" -- --upload "%d/%f"
 
-    [Perl](http://www.perl.org/) -M"MakeWithPerl" -e"MakeWithPerl::makeWithPerl" --  --doc "%d/%f"
+    perl -M"MakeWithPerl" -e"MakeWithPerl::makeWithPerl" --  --doc "%d/%f"
