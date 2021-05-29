@@ -343,12 +343,14 @@ MakeWithPerl - Make with Perl
 Integrated development environment for Geany or similar editor for compiling
 running and documenting programs written in a number of languages.
 
-Installation:
+=head2 Installation:
 
-  sudo cpan install Nasm::X86
+  sudo cpan install MakeWithPerl
 
-Then configure Geany as described in
-L<README|/https://github.com/philiprbrenan/MakeWithPerl>.
+=head2 Operation
+
+Configure Geany as described at
+L<README.md|https://github.com/philiprbrenan/MakeWithPerl>.
 
 =head1 Description
 
