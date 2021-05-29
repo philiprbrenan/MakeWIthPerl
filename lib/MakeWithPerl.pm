@@ -4,7 +4,7 @@
 # Philip R Brenan at gmail dot com, Appa Apps Ltd, 2017
 #-------------------------------------------------------------------------------
 package MakeWithPerl;
-our $VERSION = "20210532";
+our $VERSION = "20210533";
 use warnings FATAL => qw(all);
 use strict;
 use Carp qw(confess);
@@ -356,7 +356,7 @@ L<README.md|https://github.com/philiprbrenan/MakeWithPerl>.
 Make with Perl
 
 
-Version "20210529".
+Version "20210533".
 
 
 The following sections describe the methods in each functional area of this
@@ -420,7 +420,7 @@ my $localTest = ((caller(1))[0]//'MakeWithPerl') eq "MakeWithPerl";             
 
 Test::More->builder->output("/dev/null") if $localTest;                         # Reduce number of confirmation messages during testing
 
-if ($^O =~ m(bsd|linux|cygwin)i and $^V and $^V ge v5.26)                       # Supported systems
+if ($^O =~ m(bsd|linux)i and $^V and $^V ge v5.26)                              # Supported systems
  {plan tests => 1;
  }
 else
@@ -431,7 +431,7 @@ my $f = owf("zzz.pl", <<END);
 #!/usr/bin/perl
 say STDOUT 'Hello World';
 END
-my $c = qq(perl -Ilib -M"MakeWithPerl" -e"MakeWithPerl::makeWithPerl" -- --run $f 2>&1);
+my $c = qq($^X -Ilib -M"MakeWithPerl" -e"MakeWithPerl::makeWithPerl" -- --run $f 2>&1);
 my $r = qx($c);
 unlink $f;
 
