@@ -29,3 +29,12 @@ The text to enter is:
     perl -M"MakeWithPerl" -e"MakeWithPerl::makeWithPerl" -- --upload "%d/%f"
 
     perl -M"MakeWithPerl" -e"MakeWithPerl::makeWithPerl" --  --doc "%d/%f"
+
+
+# Operation on Geany
+
+## Press **f8** to compile a program
+
+## Press **f9** to run a program
+
+## Press **f5** to document a program
