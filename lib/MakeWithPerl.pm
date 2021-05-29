@@ -27,7 +27,6 @@ my $upload;                                                                     
 my $valgrind;                                                                   # Check C memory usage
 my $xmlCatalog;                                                                 # Verify xml
 
-
 sub makeWithPerl {                                                              # Make a file
 GetOptions(
   'cIncludes=s' =>\$cIncludes,
