@@ -33,8 +33,8 @@ The text to enter is:
 
 # Operation on Geany
 
-## Press **f8** to compile a program
+### Press **F8** to compile a program
 
-## Press **f9** to run a program
+### Press **F9** to run a program
 
-## Press **f5** to document a program
+### Press **F5** to document a program
