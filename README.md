@@ -1,4 +1,5 @@
-# Generate and run [x64](https://en.wikipedia.org/wiki/X86-64) [Advanced Vector Extensions](https://en.wikipedia.org/wiki/AVX-512) assembler programs from [Perl](http://www.perl.org/) 
+# Make with Perl.
+
 ![Test](https://github.com/philiprbrenan/MakeWithPerl/workflows/Test/badge.svg)
 
 Integrated development environment for
