@@ -1,4 +1,4 @@
-# Test MakeWithPerl 2021-05-29 at 02:23:46
+# Test MakeWithPerl 2021-05-29 at 02:25:42
 
 name: Test
 
@@ -33,4 +33,4 @@ jobs:
 
     - name: Test
       run: |
-        perl test.pl
+        perl -Ilib test.pl
