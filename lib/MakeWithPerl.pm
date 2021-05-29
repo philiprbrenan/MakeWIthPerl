@@ -4,15 +4,19 @@
 # Philip R Brenan at gmail dot com, Appa Apps Ltd, 2017
 #-------------------------------------------------------------------------------
 package MakeWithPerl;
+our $VERSION = "20210529";
 
 =pod
 
 Integrated development environment for Geany or similar editor for compiling
 running and documenting programs written in a number of languages.
 
-  makeWithPerl --compile "%f"
-  makeWithPerl --run "%f"
-  makeWithPerl --doc "%f"
+Installation:
+
+  sudo cpan install Nasm::X86
+
+Then configure Geany as described in
+L<README|/https://github.com/philiprbrenan/MakeWithPerl>.
 
 =cut
 
