@@ -4,7 +4,7 @@
 # Philip R Brenan at gmail dot com, Appa Apps Ltd, 2017
 #-------------------------------------------------------------------------------
 package MakeWithPerl;
-our $VERSION = "20210533";
+our $VERSION = "20210534";
 use warnings FATAL => qw(all);
 use strict;
 use Carp qw(confess);
@@ -35,6 +35,7 @@ GetOptions(
   'doc'         =>\$doc,
   'gccVersion=s'=>\$gccVersion,
   'htmlToPdf'   =>\$htmlToPdf,
+  'javaHome=s'  =>\$javaHome,
   'run'         =>\$run,
   'valgrind'    =>\$valgrind,
   'upload'      =>\$upload,
@@ -219,7 +220,8 @@ if ($file =~ m(\.adblog\Z))                                                     
  }
 
 if ($file =~ m(\.java\Z))                                                       # Java
- {my ($name, undef, $ext) = fileparse($file, qw(.java));                        # Parse file name
+ {my  $name   = fn $file;                                                       # Parse file name
+  !$javaHome and confess "Specify --javaHome keyword to specify the folder where class files are to go.";
   my $package = &getPackageNameFromFile($file);                                 # Get package name
   my $cp      = fpd($javaHome, qw(Classes));                                    # Folder containing java classes
   if ($compile)                                                                 # Compile
