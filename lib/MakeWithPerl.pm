@@ -54,7 +54,7 @@ if (! -e $file)                                                                 
  {confess "No such file:\n$file"
  }
 
-if ($search//1)                                                                 # Upload files to GitHub or run some other action defined in the containing folder hierarchy unless search is forbidden
+if ($run && ($search//1) or $compile && ($search//0))                           # Upload files to GitHub or run some other action defined in the containing folder hierarchy unless search is forbidden
  {my @d = split m{/}, $file;                                                    # Split file name
   pop @d;
   while(@d)                                                                     # Look for a folder that contains a push command
