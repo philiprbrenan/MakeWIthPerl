@@ -24,6 +24,7 @@ my $gccVersion;                                                                 
 my $htmlToPdf;                                                                  # Convert html to pdf
 my $run;                                                                        # Run
 my $search;                                                                     # Search for a local file to make the specified file
+my $showHtml;                                                                   # Show html in opera
 my $upload;                                                                     # Upload files
 my $valgrind;                                                                   # Check C memory usage
 my $xmlCatalog;                                                                 # Verify xml
@@ -39,6 +40,7 @@ GetOptions(
   'javaHome=s'  =>\$javaHome,
   'run'         =>\$run,
   'search!'     =>\$search,
+  'showHtml!'   =>\$showHtml,
   'valgrind'    =>\$valgrind,
   'upload'      =>\$upload,
   'xmlCatalog=s'=>\$xmlCatalog,
@@ -54,7 +56,7 @@ if (! -e $file)                                                                 
  {confess "No such file:\n$file"
  }
 
-if ($run && ($search//1) or $compile && ($search//0))                           # Upload files to GitHub or run some other action defined in the containing folder hierarchy unless search is forbidden
+if ($search)                                                                    # Upload files to GitHub or run some other action defined in the containing folder hierarchy unless search is forbidden
  {my @d = split m{/}, $file;                                                    # Split file name
   pop @d;
   while(@d)                                                                     # Look for a folder that contains a push command
@@ -68,7 +70,7 @@ if ($run && ($search//1) or $compile && ($search//0))                           
      }
     pop @d;
    }
-  confess "Unable to find pushToGitHub in folders down to $file" if $search;    # Stop if we were asked to search and did not find an action
+  confess "Unable to find pushToGitHub in folders down to $file";
  }
 
 if ($doc)                                                                       # Documentation
@@ -137,7 +139,7 @@ if ($file =~ m(\.(txt|htm)\Z))                                                  
    {my $p = setFileExtension($file, q(pdf));
     say STDERR qx(wkhtmltopdf $f $p);
    }
-  else                                                                          # Show html in opera
+  elsif ($showHtml//1)                                                          # Show html in opera
    {my $c = qq(timeout 3m opera $o);
     say STDERR qq($c);
     say STDERR qx($c);
