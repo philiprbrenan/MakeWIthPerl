@@ -1,4 +1,4 @@
-# Test MakeWithPerl 2021-07-06 at 01:37:47
+# Test MakeWithPerl 2021-07-16 at 22:38:47
 
 name: Test
 
@@ -6,7 +6,7 @@ on:
   push
 
 jobs:
-  test:
+  ubuntu:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,16 +16,23 @@ jobs:
 
     - name: Install Data::Table::Text
       run: |
-        sudo cpan install -T Data::Table::Text
+        sudo cpan install -T Data::Table::Text Test::Most
 
-    - name: Install Test::Most
+    - name: Test
       run: |
-        sudo cpan install -T Test::Most
+        perl -Ilib test.pl
 
-    - name: Install tree
+  mac:
+    runs-on: macOS-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: 'main'
+
+    - name: Install Data::Table::Text
       run: |
-        sudo apt-get install -y tree
-        tree
+        sudo cpan install -T Data::Table::Text Test::Most
 
     - name: Test
       run: |
