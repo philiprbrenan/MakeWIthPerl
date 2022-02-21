@@ -45,7 +45,6 @@ GetOptions(
   'upload'      =>\$upload,
   'xmlCatalog=s'=>\$xmlCatalog,
  );
-
 my $file = shift @ARGV // $0;                                                   # File to process
 
 unless($file)                                                                   # Confirm we have a file
@@ -105,6 +104,29 @@ if (-e mwpl and $run)                                                           
  {my $p = join ' ', @ARGV;
   my $c = mwpl;
   print STDERR qx(perl -CSDA $c $p);
+  exit;
+ }
+
+if ($file =~ m(/bt/files/booktrolls/.*p[lm]\Z))                                            # Perl on booktrolls
+ {my $b  = q(phil@booktrolls.com);
+  my $f1 = q(/home/phil/zzz1.txt);
+  my $f2 = q(/home/phil/zzz2.txt);
+  my $p  = $file =~ s(/bt/files/booktrolls/) (/booktrolls/)sr;
+  my $k  = qq(1>$f1 2>$f2);
+
+  if ($compile)                                                                 # Syntax check perl
+   {my $c = qq(ssh -4 $b 'perl -cw $p $k');
+    say STDERR qx($c);
+   }
+  else                                                                          # Run perl
+   {my $c = qq(ssh -4 $b 'perl     $p $k');
+    say STDERR qx($c);
+   }
+# print STDERR qx(rsync $b:$f1 $f1; rsync $b:$f2 $f2; cat $f1 $f2);
+  if (1)
+   {my $c = qq(rsync $b:/home/phil/zzz[12].txt /home/phil/ && cat /home/phil/zzz[12].txt);
+    lll qx($c);
+   }
   exit;
  }
 
