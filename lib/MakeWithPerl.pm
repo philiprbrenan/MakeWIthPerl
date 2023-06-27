@@ -111,32 +111,6 @@ if (-e mwpl and $run)                                                           
   exit;
  }
 
-if ($file =~ m(/bt/files/booktrolls/.*\.(p[lm]|cgi)\Z))                         # Perl on booktrolls
- {my $b  = q(phil@booktrolls.com);
-  my $f1 = q(/home/phil/zzz1.txt);
-  my $f2 = q(/home/phil/zzz2.txt);
-  my $p  = $file =~ s(/bt/files/booktrolls/) (/booktrolls/)sr;
-  my $o  = q(-I/home/phil/booktrolls/lib/);
-  my $k  = qq(1>$f1 2>$f2);
-
-  if ($compile)                                                                 # Syntax check perl
-   {my $c = qq(ssh -4 $b 'perl $o -cw $p $k');
-    say STDERR qq($c);
-    say STDERR qx($c);
-   }
-  else                                                                          # Run perl
-   {my $c = qq(ssh -4 $b 'perl $o     $p $k');
-    say STDERR qq($c);
-    say STDERR qx($c);
-   }
-# print STDERR qx(rsync $b:$f1 $f1; rsync $b:$f2 $f2; cat $f1 $f2);
-  if (1)
-   {my $c = qq(rsync $b:/home/phil/zzz[12].txt /home/phil/ && cat /home/phil/zzz[12].txt);
-    say STDERR qx($c);
-   }
-  exit;
- }
-
 if ($file =~ m(\.(p[lm]|cgi)\Z))                                                # Perl
  {if ($compile)                                                                 # Syntax check perl
    {print STDERR qx(perl -CSDA -cw "$file");
@@ -173,6 +147,37 @@ if ($file =~ m(\.(txt|htm)\Z))                                                  
     say STDERR qq($c);
     say STDERR qx($c);
    }
+  exit;
+ }
+
+if ($file =~ m(\.(v|sv|tb)\Z))                                                  # Verilog
+ {my $n = fn $file;
+
+  my $ext = fe $file;
+  my $tb; my $ut;
+  if ($ext =~ m(\Atb\Z))
+   {$tb = $file; $ut = setFileExtension $file, q(sv);
+   }
+  else
+   {$ut = $file; $tb = setFileExtension $file, q(tb);
+   }
+
+  my @i =  split m(/), $file;
+  pop @i unless @i and $i[-1] =~ m(\Averilog\Z);
+  my $i = fpd '/', @i;
+say STDERR "AAAA", dump($i);
+
+  my $c = qq(rm -f $n; iverilog -I. -I../ -I../../ -I../../../ -g2012 -o $n $tb $ut && timeout 1m ./$n);
+  say STDERR qq($c);
+  say STDERR qx($c);
+  exit;
+ }
+
+if ($file =~ m(\.go\Z))                                                         # Process go
+ {my $source = readFile($file);
+  my $c = qq(go $file);
+  say STDERR $c;
+  say STDERR qx($c);
   exit;
  }
 
@@ -323,17 +328,19 @@ if ($file =~ m(\.cp*\Z))                                                        
  {my $mix = "sde-mix-out.txt";                                                  # Mix performance file produced by Intel emulator
   unlink $mix;
   my $cp = join ' ', map {split /\s+/} grep {!/\A#/} split /\n/, <<END;         # Compiler options
+-fopenmp
 -finput-charset=UTF-8 -fmax-errors=7 -rdynamic
 -Wall -Wextra -Wno-unused-function
 $cIncludes
 -I.
--O3
 END
-#-O0 -g3 -rdynamic
+#-O3
   my $source   = readFile($file);                                               # Check source for specific capabilities needed
-  my $avx512   = $source =~ m'<x86intrin.h>';                                   # Avx512 instructions
-  my $valgrind = $source =~ m'//\s*valgrind';                                   # Request Valgrind
+  my $avx512   = $source =~ m'//sde';                                           # Avx512 instructions
+  my $valgrind = $source =~ m(//valgrind)i;                                     # Request Valgrind
+  my $optimize = $source =~ m(//optimize)i;                                     # Request optimization
   $cp .= " -mavx512f" if $avx512;
+  $cp .= $optimize ? " -O3 " : " -O0 -g3 -rdynamic ";
 
 # -pg for gprof executable gmon.out
   my $gcc = $gccVersion // 'gcc';                                               # Gcc version 10
@@ -490,6 +497,33 @@ sub cgiPerl($)                                                                  
    }
  }
 }
+
+sub remotePerlExample($)                                                        # Running perl remotely - example
+ {my ($file) = @_;                                                              # File
+  my $b  = q(phil@booktrolls.com);
+  my $f1 = q(/home/phil/zzz1.txt);
+  my $f2 = q(/home/phil/zzz2.txt);
+  my $p  = $file =~ s(/bt/files/booktrolls/) (/booktrolls/)sr;
+  my $o  = q(-I/home/phil/booktrolls/lib/);
+  my $k  = qq(1>$f1 2>$f2);
+
+  if ($compile)                                                                 # Syntax check perl
+   {my $c = qq(ssh -4 $b 'perl $o -cw $p $k');
+    say STDERR qq($c);
+    say STDERR qx($c);
+   }
+  else                                                                          # Run perl
+   {my $c = qq(ssh -4 $b 'perl $o     $p $k');
+    say STDERR qq($c);
+    say STDERR qx($c);
+   }
+# print STDERR qx(rsync $b:$f1 $f1; rsync $b:$f2 $f2; cat $f1 $f2);
+  if (1)
+   {my $c = qq(rsync $b:/home/phil/zzz[12].txt /home/phil/ && cat /home/phil/zzz[12].txt);
+    say STDERR qx($c);
+   }
+  exit;
+ }
 
 #d
 #-------------------------------------------------------------------------------
