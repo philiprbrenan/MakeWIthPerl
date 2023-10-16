@@ -162,12 +162,12 @@ if ($file =~ m(\.(v|sv|tb)\Z))                                                  
    {$ut = $file; $tb = setFileExtension $file, q(tb);
    }
 
-  my @i =  split m(/), $file;
-  pop @i unless @i and $i[-1] =~ m(\Averilog\Z);
-  my $i = fpd '/', @i;
-say STDERR "AAAA", dump($i);
+  my @i =  split m(/), $file;                                                   # Locate include files in parent verilog folder
+  pop @i while @i and $i[-1] !~ m(\Averilog\Z);
+  push @i, q(includes);
+  my $i = '/'.fpd @i;
 
-  my $c = qq(rm -f $n; iverilog -I. -I../ -I../../ -I../../../ -g2012 -o $n $tb $ut && timeout 1m ./$n);
+  my $c = qq(rm -f $n; iverilog -I$i -g2012 -o $n $ut $tb && timeout 1m ./$n);
   say STDERR qq($c);
   say STDERR qx($c);
   exit;
@@ -451,6 +451,16 @@ if ($file =~ m(\.py\Z))                                                         
   elsif ($doc)                                                                  # Document
    {say STDERR "Document perl $file";
     updatePerlModuleDocumentation($file);
+   }
+  exit;
+ }
+
+if ($file =~ m(\.php\Z))                                                        # PHP
+ {if ($compile)                                                                 # Syntax check
+   {print STDERR qx(php -l "$file");
+   }
+  else                                                                          # Run
+   {print STDERR qx(php -l "$file");
    }
   exit;
  }
